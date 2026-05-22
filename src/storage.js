@@ -6,7 +6,7 @@ export function getAllItems() {
     return JSON.parse(raw);
 }
 
-function saveAllItems(items) {
+function saveItems(items) {
     localStorage.setItem(storageKey, JSON.stringify(items));
 }
 
@@ -16,9 +16,10 @@ export function addItem(name, content) {
         id: Date.now(),
         name,
         content,
+        createdAt: Date.now(),
     };
     items.push(item);
-    saveAllItems(items);
+    saveItems(items);
     return item;
 }
 
@@ -28,12 +29,12 @@ export function updateItem(id, newName, newContent) {
     if (!item) return;
     if (newName) item.name = newName;
     if (newContent) item.content = newContent;
-    saveAllItems(items);
+    saveItems(items);
 }
 
 export function removeItem(id) {
     const items = getAllItems().filter(item => item.id !== id);
-    saveAllItems(items);
+    saveItems(items);
 }
 
 export function clearAllItems() {

@@ -1,5 +1,6 @@
 import { CreateElement } from "./helperFunctions.js";
 import { removeItem as removeStoredItem, updateItem } from "./storage.js";
+import { getAllItems } from "./storage.js";
 
 // note to self: map == c# dictionary
 const renderedItems = new Map();
@@ -120,4 +121,32 @@ export function clearRenderedItems() {
         item.element.remove();
     });
     renderedItems.clear();
+}
+
+export function filterRenderedItems(filter) {
+    filter = filter.toLowerCase();
+    renderedItems.forEach(renderedItem => {
+        const matchesName = renderedItem.item.name.toLowerCase().includes(filter);
+        const matchesContent = renderedItem.item.content.toLowerCase().includes(filter);
+        renderedItem.element.style.display = matchesName || matchesContent ? "" : "none";
+    });
+}
+
+export function sortRenderedItems(sorting) {
+    const items = [...renderedItems.values()];
+    switch (sorting.toLowerCase()) {
+        case "a-z":
+            items.sort((a, b) => a.item.name.localeCompare(b.item.name));
+            break;
+        case "z-a":
+            items.sort((a, b) => b.item.name.localeCompare(a.item.name));
+            break;
+        case "oldest":
+            items.sort((a, b) => a.item.createdAt - b.item.createdAt);
+            break;
+        case "newest":
+            items.sort((a, b) => b.item.createdAt - a.item.createdAt);
+            break;
+    }
+    items.forEach(e => itemsContainer.appendChild(e.element));
 }
