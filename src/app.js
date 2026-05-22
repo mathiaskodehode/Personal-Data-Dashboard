@@ -1,8 +1,7 @@
 import { CreateElement } from "./helperFunctions.js";
 import { buildForm } from "./form.js";
-import { initItems, renderItem, clearRenderedItems } from "./items.js";
-
-import { getAllItems, clearAllItems } from "./storage.js";
+import { init as initItemsContainer, renderItem, clearRenderedItems } from "./rendering.js";
+import { getAllItems, clearAllItems as clearAllItemsFromStorage } from "./storage.js";
 
 export function Init() {
     CreateElement(
@@ -10,21 +9,18 @@ export function Init() {
         {
             innerText: "Personal Data Dashboard",
         },
-        document.body,
     );
     CreateElement(
         "button",
         {
             innerText: "FULL RESET",
-
             onclick: () => {
-                clearAllItems();
+                clearAllItemsFromStorage();
                 clearRenderedItems();
             },
         },
-        document.body,
     );
-    buildForm(document.body);
-    initItems(document.body);
+    buildForm();
+    initItemsContainer();
     getAllItems().forEach(renderItem);
 }

@@ -3,7 +3,7 @@ import {} from "./extensionMethods.js";
 export function CreateElement(tag, options = {}, parent = null) {
     if (typeof options !== "object") throw new Error("OPTIONS MUST BE AN OBJECT");
     const element = document.createElement(tag);
-    if (parent instanceof HTMLElement) {
+    if (parent) {
         parent.appendChild(element);
     } else {
         document.body.appendChild(element);

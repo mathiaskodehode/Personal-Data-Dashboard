@@ -1,16 +1,17 @@
 import { CreateElement } from "./helperFunctions.js";
 import { removeItem as removeStoredItem, updateItem } from "./storage.js";
 
+// note to self: map == c# dictionary
 const renderedItems = new Map();
-let container;
+let itemsContainer;
 
-export function initItems(parent) {
-    container = CreateElement("div", { id: "itemsContainer" }, parent);
+export function init() {
+    itemsContainer = CreateElement("div", { id: "itemsContainer" });
 }
 
 export function renderItem(item) {
     if (renderedItems.has(item.id)) return;
-    const element = CreateElement("div", {}, container);
+    const element = CreateElement("div", {}, itemsContainer);
     const title = CreateElement("h2", { innerText: item.name }, element);
     const text = CreateElement("p", { innerText: item.content }, element);
     const editBtn = CreateElement("button", { innerText: "Edit" }, element);

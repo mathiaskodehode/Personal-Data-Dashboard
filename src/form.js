@@ -1,12 +1,11 @@
 import { CreateElement } from "./helperFunctions.js";
 import { addItem } from "./storage.js";
-import { renderItem } from "./items.js";
+import { renderItem } from "./rendering.js";
 
-export function buildForm(parent) {
-    const form = CreateElement("form", {}, parent);
+export function buildForm() {
+    const form = CreateElement("form", {});
     const nameInput = createInput(form, "Item name", "itemName");
     const contentInput = createInput(form, "Item content", "itemContent");
-
     CreateElement(
         "button",
         {
