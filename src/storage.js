@@ -1,33 +1,40 @@
-import { storagePrefix } from "./constants.js";
-
-export function getBuildKey(name) {
-    return `${storagePrefix}${name}`;
-}
-
-export function getItemName(key) {
-    return key.replace(storagePrefix, "");
-}
-
-export function saveItem(name, content) {
-    localStorage.setItem(getBuildKey(name), content);
-}
-
-export function deleteItem(name) {
-    localStorage.removeItem(getBuildKey(name));
-}
+const storageKey = "dashboardItems";
 
 export function getAllItems() {
-    return Object.keys(localStorage)
-        .filter(k => k.startsWith(storagePrefix))
-        .map(k => ({
-            key: k,
-            name: getItemName(k),
-            content: localStorage.getItem(k),
-        }));
+    const raw = localStorage.getItem(storageKey);
+    if (!raw) return [];
+    return JSON.parse(raw);
+}
+
+function saveAllItems(items) {
+    localStorage.setItem(storageKey, JSON.stringify(items));
+}
+
+export function addItem(name, content) {
+    const items = getAllItems();
+    const item = {
+        id: Date.now(),
+        name,
+        content,
+    };
+    items.push(item);
+    saveAllItems(items);
+    return item;
+}
+
+export function updateItem(id, content) {
+    const items = getAllItems();
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+    item.content = content;
+    saveAllItems(items);
+}
+
+export function removeItem(id) {
+    const items = getAllItems().filter(item => item.id !== id);
+    saveAllItems(items);
 }
 
 export function clearAllItems() {
-    getAllItems().forEach(item => {
-        localStorage.removeItem(item.key);
-    });
+    localStorage.removeItem(storageKey);
 }

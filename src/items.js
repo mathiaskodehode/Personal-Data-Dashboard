@@ -1,8 +1,7 @@
 import { CreateElement } from "./helperFunctions.js";
-import { deleteItem } from "./storage.js";
+import { removeItem as removeStoredItem } from "./storage.js";
 
 const renderedItems = new Map();
-
 let container;
 
 export function initItems(parent) {
@@ -10,13 +9,11 @@ export function initItems(parent) {
 }
 
 export function renderItem(item) {
-    if (renderedItems.has(item.key)) {
-        updateItem(item.key, item.content);
+    if (renderedItems.has(item.id)) {
+        updateRenderedItem(item.id, item.content);
         return;
     }
-
     const element = CreateElement("div", {}, container);
-
     CreateElement(
         "h2",
         {
@@ -24,7 +21,6 @@ export function renderItem(item) {
         },
         element,
     );
-
     const text = CreateElement(
         "p",
         {
@@ -32,46 +28,37 @@ export function renderItem(item) {
         },
         element,
     );
-
     CreateElement(
         "button",
         {
             innerText: "X",
-            onclick: () => removeItem(item.key),
+            onclick: () => removeRenderedItem(item.id),
         },
         element,
     );
-
-    renderedItems.set(item.key, {
+    renderedItems.set(item.id, {
         element,
         text,
     });
 }
 
-export function updateItem(key, content) {
-    const item = renderedItems.get(key);
-
+function updateRenderedItem(id, content) {
+    const item = renderedItems.get(id);
     if (!item) return;
-
     item.text.innerText = content;
 }
 
-export function removeItem(key) {
-    deleteItem(key.replace(/^.*__/, ""));
-
-    const item = renderedItems.get(key);
-
+export function removeRenderedItem(id) {
+    removeStoredItem(id);
+    const item = renderedItems.get(id);
     if (!item) return;
-
     item.element.remove();
-
-    renderedItems.delete(key);
+    renderedItems.delete(id);
 }
 
 export function clearRenderedItems() {
     renderedItems.forEach(item => {
         item.element.remove();
     });
-
     renderedItems.clear();
 }
