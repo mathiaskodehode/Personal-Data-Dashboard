@@ -22,11 +22,12 @@ export function addItem(name, content) {
     return item;
 }
 
-export function updateItem(id, content) {
+export function updateItem(id, newName, newContent) {
     const items = getAllItems();
     const item = items.find(i => i.id === id);
     if (!item) return;
-    item.content = content;
+    if (newName) item.name = newName;
+    if (newContent) item.content = newContent;
     saveAllItems(items);
 }
 
