@@ -17,7 +17,7 @@ export function renderItem(item) {
     CreateElement(
         "button",
         {
-            innerText: "X",
+            innerText: "Delete",
             onclick: () => removeRenderedItem(item.id),
         },
         element,
