@@ -1,6 +1,6 @@
 import { CreateElement } from "./helperFunctions.js";
-import { addItem } from "./storage.js";
-import { renderItem } from "./rendering.js";
+import { addItem, clearAllItems as clearAllItemsFromStorage } from "./storage.js";
+import { init as initItemsContainer, renderItem, clearRenderedItems } from "./rendering.js";
 
 export function buildForm() {
     const form = CreateElement("form", {});
@@ -19,6 +19,17 @@ export function buildForm() {
                 renderItem(item);
                 nameInput.value = "";
                 contentInput.value = "";
+            },
+        },
+        form,
+    );
+    CreateElement(
+        "button",
+        {
+            innerText: "Remove all",
+            onclick: () => {
+                clearAllItemsFromStorage();
+                clearRenderedItems();
             },
         },
         form,

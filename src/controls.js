@@ -2,7 +2,7 @@ import { CreateElement } from "./helperFunctions.js";
 import { sortRenderedItems, filterRenderedItems } from "./rendering.js";
 
 export function buildControls() {
-    const container = CreateElement("div");
+    const container = CreateElement("div", { className: "controls" });
     CreateElement(
         "input",
         {

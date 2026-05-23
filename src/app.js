@@ -8,13 +8,6 @@ export function Init() {
     CreateElement("h1", {
         innerText: "Personal Data Dashboard",
     });
-    CreateElement("button", {
-        innerText: "FULL RESET",
-        onclick: () => {
-            clearAllItemsFromStorage();
-            clearRenderedItems();
-        },
-    });
     buildForm();
     buildControls();
     initItemsContainer();
